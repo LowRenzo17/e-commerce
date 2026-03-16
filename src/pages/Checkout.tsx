@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "@/store";
 import { clearCart } from "@/store/cartSlice";
 import Layout from "@/components/Layout";
+import EmptyState from "@/components/EmptyState";
+import SafeImage from "@/components/SafeImage";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 
@@ -38,9 +40,21 @@ const Checkout = () => {
     setLoading(false);
   };
 
+  useEffect(() => {
+    if (items.length === 0) navigate("/cart", { replace: true });
+  }, [items.length, navigate]);
+
   if (items.length === 0) {
-    navigate("/cart");
-    return null;
+    return (
+      <Layout>
+        <EmptyState
+          title="Your cart is empty"
+          description="Add at least one item before checking out."
+          actionLabel="Browse products"
+          actionTo="/products"
+        />
+      </Layout>
+    );
   }
 
   const inputClass = "w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent";
@@ -105,7 +119,7 @@ const Checkout = () => {
             <div className="mb-4 space-y-3">
               {items.map((item) => (
                 <div key={item.product.id} className="flex items-center gap-3">
-                  <img src={item.product.images[0]} alt="" className="h-12 w-12 rounded-lg object-cover" />
+                  <SafeImage src={item.product.images?.[0]} alt="" className="h-12 w-12 rounded-lg object-cover" loading="lazy" />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate">{item.product.name}</p>
                     <p className="text-xs text-muted-foreground">Qty: {item.quantity}</p>

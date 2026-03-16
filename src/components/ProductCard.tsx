@@ -6,6 +6,7 @@ import { addToCart } from "@/store/cartSlice";
 import { toggleWishlist } from "@/store/wishlistSlice";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
+import SafeImage from "@/components/SafeImage";
 
 interface Props {
   product: Product;
@@ -66,8 +67,8 @@ const ProductCard = ({ product, index = 0 }: Props) => {
 
           {/* Image */}
           <div className="aspect-square overflow-hidden">
-            <img
-              src={product.images[0]}
+            <SafeImage
+              src={product.images?.[0]}
               alt={product.name}
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               loading="lazy"

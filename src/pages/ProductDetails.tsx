@@ -9,6 +9,8 @@ import { toggleWishlist } from "@/store/wishlistSlice";
 import { ProductDetailSkeleton } from "@/components/ProductSkeleton";
 import ProductCard from "@/components/ProductCard";
 import Layout from "@/components/Layout";
+import EmptyState from "@/components/EmptyState";
+import SafeImage from "@/components/SafeImage";
 import { mockReviews } from "@/data/mockProducts";
 import { toast } from "sonner";
 
@@ -25,7 +27,19 @@ const ProductDetails = () => {
     if (allProducts.length === 0) dispatch(fetchProducts());
   }, [id, dispatch, allProducts.length]);
 
-  if (loading || !product) return <Layout><ProductDetailSkeleton /></Layout>;
+  if (loading) return <Layout><ProductDetailSkeleton /></Layout>;
+  if (!product) {
+    return (
+      <Layout>
+        <EmptyState
+          title="Product not found"
+          description="This product may have been removed or the link is incorrect."
+          actionLabel="Back to shop"
+          actionTo="/products"
+        />
+      </Layout>
+    );
+  }
 
   const related = allProducts
     .filter((p) => p.category === product.category && p.id !== product.id)
@@ -48,11 +62,7 @@ const ProductDetails = () => {
           {/* Images */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
             <div className="overflow-hidden rounded-xl bg-secondary/50">
-              <img
-                src={product.images[selectedImage]}
-                alt={product.name}
-                className="aspect-square w-full object-cover"
-              />
+              <SafeImage src={product.images?.[selectedImage]} alt={product.name} className="aspect-square w-full object-cover" />
             </div>
             {product.images.length > 1 && (
               <div className="flex gap-2">
@@ -62,7 +72,7 @@ const ProductDetails = () => {
                     onClick={() => setSelectedImage(i)}
                     className={`overflow-hidden rounded-lg border-2 transition-colors ${i === selectedImage ? "border-accent" : "border-transparent"}`}
                   >
-                    <img src={img} alt="" className="h-16 w-16 object-cover" />
+                    <SafeImage src={img} alt="" className="h-16 w-16 object-cover" />
                   </button>
                 ))}
               </div>

@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import { fetchProducts } from "@/store/productsSlice";
 import ProductCard from "@/components/ProductCard";
 import Layout from "@/components/Layout";
+import SafeImage from "@/components/SafeImage";
+import HeroBackgroundThree from "@/components/HeroBackgroundThree";
 import { categories } from "@/data/mockProducts";
 import heroBanner from "@/assets/hero-banner.jpg";
 import promoBanner from "@/assets/promo-banner.jpg";
@@ -26,7 +28,8 @@ const Index = () => {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src={heroBanner} alt="Premium collection" className="h-full w-full object-cover" />
+          <SafeImage src={heroBanner} alt="Premium collection" className="h-full w-full object-cover" />
+          <HeroBackgroundThree className="absolute inset-0 h-full w-full pointer-events-none opacity-80 mix-blend-screen" />
           <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/50 to-transparent" />
         </div>
         <div className="container relative z-10 flex min-h-[560px] items-center py-20">
@@ -138,7 +141,7 @@ const Index = () => {
       {/* Promo Banner */}
       <section className="container pb-16">
         <div className="relative overflow-hidden rounded-2xl">
-          <img src={promoBanner} alt="Promo" className="h-64 w-full object-cover sm:h-80" />
+          <SafeImage src={promoBanner} alt="Promo" className="h-64 w-full object-cover sm:h-80" />
           <div className="absolute inset-0 bg-gradient-to-r from-foreground/70 to-transparent" />
           <div className="absolute inset-0 flex items-center">
             <div className="px-8 sm:px-12">

@@ -23,21 +23,19 @@ const Footer = () => (
         <div>
           <h4 className="mb-4 text-sm font-semibold">Company</h4>
           <div className="flex flex-col gap-2">
-            {["About", "Careers", "Press", "Sustainability"].map((item) => (
-              <span key={item} className="cursor-pointer text-sm text-muted-foreground transition-colors hover:text-foreground">
-                {item}
-              </span>
-            ))}
+            <Link to="/about" className="text-sm text-muted-foreground transition-colors hover:text-foreground">About</Link>
+            <span className="text-sm text-muted-foreground">Careers (coming soon)</span>
+            <span className="text-sm text-muted-foreground">Press (coming soon)</span>
+            <span className="text-sm text-muted-foreground">Sustainability (coming soon)</span>
           </div>
         </div>
         <div>
           <h4 className="mb-4 text-sm font-semibold">Support</h4>
           <div className="flex flex-col gap-2">
-            {["Contact", "FAQ", "Shipping", "Returns"].map((item) => (
-              <span key={item} className="cursor-pointer text-sm text-muted-foreground transition-colors hover:text-foreground">
-                {item}
-              </span>
-            ))}
+            <Link to="/contact" className="text-sm text-muted-foreground transition-colors hover:text-foreground">Contact</Link>
+            <Link to="/faq" className="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</Link>
+            <Link to="/shipping" className="text-sm text-muted-foreground transition-colors hover:text-foreground">Shipping</Link>
+            <Link to="/returns" className="text-sm text-muted-foreground transition-colors hover:text-foreground">Returns</Link>
           </div>
         </div>
       </div>

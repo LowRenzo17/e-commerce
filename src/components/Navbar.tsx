@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Heart, Search, Menu, X, User, LogOut } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/store";
 import { logout } from "@/store/authSlice";
 import { setFilters } from "@/store/productsSlice";
@@ -18,6 +18,16 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname, location.search]);
+
+  const activeKey = useMemo(() => {
+    if (location.pathname === "/") return "home";
+    if (location.pathname.startsWith("/products")) return "shop";
+    return "";
+  }, [location.pathname]);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -29,8 +39,8 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { to: "/", label: "Home" },
-    { to: "/products", label: "Shop" },
+    { to: "/", label: "Home", key: "home" },
+    { to: "/products", label: "Shop", key: "shop" },
     { to: "/products?category=electronics", label: "Electronics" },
     { to: "/products?category=fashion", label: "Fashion" },
   ];
@@ -49,9 +59,10 @@ const Navbar = () => {
             <Link
               key={link.to}
               to={link.to}
-              className={`text-sm font-medium transition-colors hover:text-accent ${
-                location.pathname === link.to ? "text-foreground" : "text-muted-foreground"
-              }`}
+              className={`text-sm font-medium transition-colors hover:text-accent ${("key" in link && link.key === activeKey) || (!("key" in link) && location.pathname + location.search === link.to)
+                ? "text-foreground"
+                : "text-muted-foreground"
+                }`}
             >
               {link.label}
             </Link>

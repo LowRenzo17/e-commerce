@@ -5,6 +5,7 @@ import { updateQuantity, removeFromCart } from "@/store/cartSlice";
 import EmptyState from "@/components/EmptyState";
 import Layout from "@/components/Layout";
 import { motion, AnimatePresence } from "framer-motion";
+import SafeImage from "@/components/SafeImage";
 
 const Cart = () => {
   const dispatch = useAppDispatch();
@@ -38,7 +39,12 @@ const Cart = () => {
                   className="flex gap-4 rounded-xl border border-border p-4"
                 >
                   <Link to={`/product/${item.product.id}`} className="shrink-0">
-                    <img src={item.product.images[0]} alt={item.product.name} className="h-24 w-24 rounded-lg object-cover" />
+                    <SafeImage
+                      src={item.product.images?.[0]}
+                      alt={item.product.name}
+                      className="h-24 w-24 rounded-lg object-cover"
+                      loading="lazy"
+                    />
                   </Link>
                   <div className="flex flex-1 flex-col justify-between">
                     <div className="flex items-start justify-between gap-2">
